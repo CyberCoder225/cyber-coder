@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Network</title>
+    <style>
+        /* Basic Reset & Global Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #000000; /* Pure black background */
+            color: #00FF00; /* Bright green text - your requested color */
+            font-family: 'Consolas', 'Monaco', 'Courier New', Courier, monospace; /* Classic hacker font */
+            line-height: 1.6;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Align to top for longer content */
+            min-height: 100vh;
+        }
+
+        /* Main container for the "terminal" window */
+        .hacker-terminal {
+            width: 100%;
+            max-width: 800px; /* Max width for readability */
+            border: 2px solid #00FF00;
+            padding: 25px;
+            box-shadow: 0 0 15px #00FF00, 0 0 5px #00FF00 inset; /* Outer and inner glow */
+            background-color: rgba(0, 10, 0, 0.1); /* Very subtle dark green tint */
+            border-radius: 5px; /* Slightly rounded corners */
+        }
+
+        /* Main title - like a system message */
+        .terminal-header {
+            text-align: center;
+            font-size: 1.8em;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 30px;
+            text-shadow: 0 0 5px #00FF00;
+            border-bottom: 1px dashed #00FF00; /* Dashed line separator */
+            padding-bottom: 15px;
+        }
+
+        /* Styling for each section (Collaborators, Friends, Students) */
+        .network-section {
+            margin-bottom: 30px;
+        }
+
+        .network-section h2 {
+            font-size: 1.4em;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            display: inline-block; /* For the blinking cursor */
+            text-shadow: 0 0 3px #00FF00;
+        }
+
+        /* Blinking cursor effect for section titles */
+        .network-section h2::after {
+            content: '_';
+            font-weight: bold;
+            animation: blink-caret 1s step-end infinite;
+            margin-left: 5px;
+        }
+
+        @keyframes blink-caret {
+            from, to { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* List styling */
+        .network-list {
+            list-style-type: none; /* Remove default bullets */
+            padding-left: 10px;
+        }
+
+        .network-list li {
+            margin-bottom: 8px;
+            padding-left: 25px; /* Space for the pseudo-element */
+            position: relative; /* For positioning the pseudo-element */
+            font-size: 1.1em;
+        }
+
+        /* Custom bullet point - like a command prompt or entry marker */
+        .network-list li::before {
+            content: '>'; /* Command prompt style */
+            position: absolute;
+            left: 0;
+            top: 0;
+            color: #00FF00; /* Green marker */
+            font-weight: bold;
+        }
+
+        /* Adding a subtle hover effect for list items */
+        .network-list li:hover {
+            background-color: rgba(0, 255, 0, 0.1); /* Slight green highlight on hover */
+            cursor: default; /* Indicate it's not a link, just text */
+        }
+
+        /* Footer message */
+        .terminal-footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 0.9em;
+            color: #009900; /* Darker green for less emphasis */
+            border-top: 1px dashed #00FF00;
+            padding-top: 15px;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+            .hacker-terminal {
+                padding: 15px;
+            }
+            .terminal-header {
+                font-size: 1.5em;
+            }
+            .network-section h2 {
+                font-size: 1.2em;
+            }
+            .network-list li {
+                font-size: 1em;
+                padding-left: 20px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="hacker-terminal">
+        <header class="terminal-header">
+            Initializing Cyber Coder... Access Granted.
+        </header>
+
+        <section class="network-section" id="collaborators">
+            <h2>// Unit: Collaborators_</h2>
+            <ul class="network-list">
+                <li>Tech Titan</li>
+                <li>Kelvin</li>
+                <li>Python Code Master</li>
+                <li>Greed Pener</li>
+                <li>Java GY</li>
+            </ul>
+        </section>
+
+        <section class="network-section" id="friends">
+            <h2>// Alias_Registry: Friends_</h2>
+            <ul class="network-list">
+                <li>Tech Titan</li>
+                <li>NY.BMW.WT</li>
+                <li>Tsikson</li>
+                <li>Mercy My Love</li>
+                <li>ETC</li>
+            </ul>
+        </section>
+
+        <section class="network-section" id="students">
+            <h2>// Training_Log: Students_</h2>
+            <ul class="network-list">
+                <li>Tech Titan</li>
+                <li>Black Coder</li>
+                <li>Weep Tech</li>
+                <li>LogicLad</li>
+                <li>ETC</li
+            </ul>
+        </section>
+
+        <footer class="terminal-footer">
+            --- End of Transmission ---
+        </footer>
+    </div>
+
+    <script>
+        // Optional: Simple JavaScript for a typing effect on the header
+        // For a pure HTML/CSS snippet, this can be omitted.
+        // If you want to add it, let me know!
+        // For now, keeping it pure CSS as requested for a "snippet".
+
+        console.log("System Online. Network protocols active. User: Guest. Access Level: Read-Only.");
+    </script>
+
+</body>
+</html>
