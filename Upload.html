@@ -91,34 +91,130 @@
   </div>
 
   <script>
-    document.getElementById('uploadButton').addEventListener('click', function () {
-      const title = document.getElementById('resource-title').value;
-      const description = document.getElementById('resource-description').value;
-      const file = document.getElementById('resource-file').files[0];
+    document.addEventListener('DOMContentLoaded', () => {
+  const form = document.getElementById('resource-form');
+  const uploadButton = document.getElementById('uploadButton');
+  const titleInput = document.getElementById('resource-title');
+  const descriptionInput = document.getElementById('resource-description');
+  const fileInput = document.getElementById('resource-file');
+  const titleError = document.getElementById('title-error');
+  const descriptionError = document.getElementById('description-error');
+  const fileError = document.getElementById('file-error');
+  const loading = document.getElementById('loading');
 
-      if (title && description && file) {
-        const formData = new FormData();
-        formData.append('title', title);
-        formData.append('description', description);
-        formData.append('file', file);
+  // Validate form inputs in real-time
+  const validateForm = () => {
+    let isValid = true;
 
-        fetch('/api/upload-resource', {
+    // Title validation
+    if (!titleInput.value.trim()) {
+      titleError.textContent = 'Title is required';
+      isValid = false;
+    } else if (titleInput.value.trim().length > 100) {
+      titleError.textContent = 'Title must be less than 100 characters';
+      isValid = false;
+    } else {
+      titleError.textContent = '';
+    }
+
+    // Description validation
+    if (!descriptionInput.value.trim()) {
+      descriptionError.textContent = 'Description is required';
+      isValid = false;
+    } else if (descriptionInput.value.trim().length > 500) {
+      descriptionError.textContent = 'Description must be less than 500 characters';
+      isValid = false;
+    } else {
+      descriptionError.textContent = '';
+    }
+
+    // File validation
+    if (!fileInput.files[0]) {
+      fileError.textContent = 'File is required';
+      isValid = false;
+    } else {
+      const file = fileInput.files[0];
+      const allowedTypes = ['application/pdf', 'application/zip', 'image/jpeg', 'image/png'];
+      if (!allowedTypes.includes(file.type)) {
+        fileError.textContent = 'Only PDF, ZIP, JPG, or PNG files are allowed';
+        isValid = false;
+      } else if (file.size > 10 * 1024 * 1024) { // 10MB limit
+        fileError.textContent = 'File size must be less than 10MB';
+        isValid = false;
+      } else {
+        fileError.textContent = '';
+      }
+    }
+
+    uploadButton.disabled = !isValid;
+  };
+
+  // Add input event listeners for real-time validation
+  titleInput.addEventListener('input', validateForm);
+  descriptionInput.addEventListener('input', validateForm);
+  fileInput.addEventListener('change', validateForm);
+
+  // Form submission
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    validateForm();
+
+    if (!uploadButton.disabled) {
+      uploadButton.disabled = true;
+      loading.style.display = 'block';
+
+      const formData = new FormData();
+      formData.append('title', sanitizeInput(titleInput.value.trim()));
+      formData.append('description', sanitizeInput(descriptionInput.value.trim()));
+      formData.append('file', fileInput.files[0]);
+
+      try {
+        const response = await fetch('/api/upload-resource', {
           method: 'POST',
           body: formData,
-        })
-        .then(response => response.json())
-        .then(data => {
-          if (data.success) {
+        });
+        const data = await response.json();
+
+        if (data.success) {
+          showNotification('Resource uploaded successfully!');
+          setTimeout(() => {
             window.location.href = 'Uploads.html?uploaded=true';
-          } else {
-            alert(data.message || 'Upload failed.');
-          }
-        })
-        .catch(() => alert('Error uploading resource.'));
-      } else {
-        alert('Fill all fields.');
+          }, 2000);
+        } else {
+          showNotification(data.message || 'Upload failed.');
+        }
+      } catch (error) {
+        showNotification('Error uploading resource.');
+      } finally {
+        uploadButton.disabled = false;
+        loading.style.display = 'none';
       }
-    });
+    }
+  });
+
+  // Sanitize input to prevent XSS
+  function sanitizeInput(input) {
+    const div = document.createElement('div');
+    div.textContent = input;
+    return div.innerHTML;
+  }
+
+  // Show notification
+  function showNotification(message) {
+    const notification = document.getElementById('notification');
+    const notificationMessage = document.getElementById('notification-message');
+    notificationMessage.textContent = message;
+    notification.classList.add('show');
+    setTimeout(() => {
+      notification.classList.remove('show');
+    }, 3000);
+  }
+
+  // Close notification
+  window.closeNotification = function () {
+    document.getElementById('notification').classList.remove('show');
+  };
+});
   </script>
 </body>
 </html>
